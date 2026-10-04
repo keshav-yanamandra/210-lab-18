@@ -42,6 +42,33 @@ class Movie {
             head = nullptr;
         }
 
+        // copy constructor 
+        Movie(const Movie &other) {
+            title = other.title;
+            head = nullptr;
+
+            Review *current = other.head;
+            Review *last = nullptr;
+
+            while (current) {
+                Review *newnode = new Review;
+
+                newnode->rating = current->rating;
+                newnode->comment = current->comment;
+                newnode->next = nullptr;
+
+                if (head == nullptr) {
+                    head = newnode;
+                }
+                else {
+                    last->next = newnode;
+                }
+
+                last = newnode;
+                current = current->next;
+            }
+        }
+
         // add review to head
         void addReview(double r, string c) {
             Review *newnode = new Review;
@@ -91,15 +118,8 @@ class Movie {
 
 int main() {
 
-    Movie movie1("Test Movie");
-    movie1.addReview(4.8, "Good movie.");
-    movie1.addReview(3.8, "Pretty good.");
-    movie1.addReview(4.2, "I liked it.");
-
-    movie1.print();
-
-
     srand(time(0));
+    cout << fixed << setprecision(1);
 
     Movie movies[MOVIE_COUNT] = {
         Movie("Lord of the Rings"),
@@ -110,27 +130,21 @@ int main() {
 
     ifstream fin("input.txt");
     string comment;
-
     int i = 0;
     int r = 0;
-
 
     if (fin.good()) {
 
         while (getline(fin, comment)) {
-            cout << comment << endl;
             int randomRating = (rand() % RANGE) + MIN;
             double rating = randomRating / 10.0;
-
             movies[i].addReview(rating, comment);
-
             r++;
 
             if (r == REVIEWS_PER_MOVIE) {
                 i++;
                 r = 0;
             }
-
         }
 
         fin.close();
@@ -140,7 +154,15 @@ int main() {
         return 1;
     }
 
+    for (int j = 0; j < MOVIE_COUNT; j++) {
+        movies[j].print();
+    }
+
+    // testing copy constructor
+    Movie copyConstTest = movies[0];
+    cout << "TESTING COPY" << endl;
+    copyConstTest.print();
+
 
     return 0;
 }
-
