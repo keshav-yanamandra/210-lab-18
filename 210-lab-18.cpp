@@ -5,12 +5,17 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
 const int MIN = 10;
 const int MAX = 50;
-const int RANGE = 40;
+const int RANGE = MAX - MIN + 1;
+const int MOVIE_COUNT = 4;
+const int REVIEWS_PER_MOVIE = 3;
 
 
 struct Review {
@@ -80,8 +85,22 @@ int main() {
 
     movie1.print();
 
+
+    srand(time(0));
+
+    Movie movies[MOVIE_COUNT] = {
+        Movie("Lord of the Rings"),
+        Movie("The Godfather"),
+        Movie("Star Wars"),
+        Movie("Jurassic Park")
+    };
+
     ifstream fin("input.txt");
     string comment;
+
+    int i = 0;
+    int r = 0;
+
 
     if (fin.good()) {
 
@@ -90,7 +109,14 @@ int main() {
             int randomRating = (rand() % RANGE) + MIN;
             double rating = randomRating / 10.0;
 
-            cout << rating << ": " << comment << endl;
+            movies[i].addReview(rating, comment);
+
+            r++;
+
+            if (r == REVIEWS_PER_MOVIE) {
+                i++;
+                r = 0;
+            }
 
         }
 
