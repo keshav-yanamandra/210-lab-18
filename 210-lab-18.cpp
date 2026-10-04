@@ -8,6 +8,11 @@
 
 using namespace std;
 
+const int MIN = 10;
+const int MAX = 50;
+const int RANGE = 40;
+
+
 struct Review {
     double rating;
     string comment;
@@ -82,6 +87,11 @@ int main() {
 
         while (getline(fin, comment)) {
             cout << comment << endl;
+            int randomRating = (rand() % RANGE) + MIN;
+            double rating = randomRating / 10.0;
+
+            cout << rating << ": " << comment << endl;
+
         }
 
         fin.close();
