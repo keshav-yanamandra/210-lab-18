@@ -74,6 +74,19 @@ class Movie {
 
             cout << endl;
         }
+
+        //destructor
+        ~Movie() {
+            Review *current = head;
+
+            while (current) {
+                head = current->next;
+                delete current;
+                current = head;
+            }
+
+            head = nullptr;
+        }
 };
 
 int main() {
