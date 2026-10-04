@@ -70,10 +70,26 @@ int main() {
 
     Movie movie1("Test Movie");
     movie1.addReview(4.8, "Good movie.");
-    movie1.addReview(3.8, "OK.");
+    movie1.addReview(3.8, "Pretty good.");
     movie1.addReview(4.2, "I liked it.");
 
     movie1.print();
+
+    ifstream fin("input.txt");
+    string comment;
+
+    if (fin.good()) {
+
+        while (getline(fin, comment)) {
+            cout << comment << endl;
+        }
+
+        fin.close();
+    }
+    else {
+        cout << "File not found." << endl;
+        return 1;
+    }
 
 
     return 0;
