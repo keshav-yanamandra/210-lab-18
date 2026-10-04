@@ -102,6 +102,50 @@ class Movie {
             cout << endl;
         }
 
+        // copy assignment operator
+        Movie& operator=(const Movie &other) {
+
+            if (this != &other) {
+
+                // delete old reviews
+                Review *current = head;
+
+                while (current != nullptr) {
+                    head = current->next;
+                    delete current;
+                    current = head;
+                }
+
+                head = nullptr;
+
+                // copy the title and reviews
+                title = other.title;
+                current = other.head;
+                Review *last = nullptr;
+
+                while (current != nullptr) {
+
+                    Review *newnode = new Review;
+
+                    newnode->rating = current->rating;
+                    newnode->comment = current->comment;
+                    newnode->next = nullptr;
+
+                    if (head == nullptr) {
+                        head = newnode;
+                    }
+                    else {
+                        last->next = newnode;
+                    }
+
+                    last = newnode;
+                    current = current->next;
+                }
+            }
+
+            return *this;
+        }
+
         //destructor
         ~Movie() {
             Review *current = head;
@@ -162,6 +206,15 @@ int main() {
     Movie copyConstTest = movies[0];
     cout << "TESTING COPY" << endl;
     copyConstTest.print();
+
+
+    copyConstTest.addReview(5.0, "Extra test review.");
+
+    cout << "COPY:" << endl;
+    copyConstTest.print();
+
+    cout << "ORIGINAL:" << endl;
+    movies[0].print();
 
 
     return 0;
