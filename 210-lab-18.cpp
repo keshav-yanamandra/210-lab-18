@@ -20,10 +20,32 @@ class Movie {
         Review *head;
 
     public:
+        // default constructor
+        Movie() {
+            title = "";
+            head = nullptr;
+        }
 
+        // constructor with title
+        Movie(string t) {
+            title = t;
+            head = nullptr;
+        }
+
+        // add review to head
+        void addReview(double r, string c) {
+            Review *newnode = new Review;
+
+            newnode->rating = r;
+            newnode->comment = c;
+            newnode->next = head;
+
+            head = newnode;
+        }
 };
 
 int main() {
 
     return 0;
 }
+
